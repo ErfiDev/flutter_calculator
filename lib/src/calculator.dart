@@ -9,116 +9,64 @@ class Calculator extends StatefulWidget {
 }
 
 class _CalculatorState extends State<Calculator> {
+  String _display = '0.0';
+  String _currentOperator = '';
+  String _currentNumber = '';
+  String _rightHandSideNumber = '';
+
+  void _changeNumber(String num) {
+    setState(() {
+      _currentNumber = num;
+      _display = _currentNumber;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            flex: 1,
-            child: Container(
-              color: Colors.black87,
-              child: Center(
-                child: Text(
-                  'The Result...',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 25,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 7,
-            child: GetButtons(),
-          ),
-          Expanded(
-            flex: 2,
+        body: Column(
+      children: [
+        Expanded(
+          child: Container(
+            color: Colors.grey,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Expanded(
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          color: Colors.grey,
-                          child: Center(
-                            child: Icon(
-                              Icons.add,
-                            ),
-                          ),
-                        ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      _display,
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        fontSize: 35,
                       ),
-                      Expanded(
-                        child: Container(
-                          color: Colors.grey,
-                          child: Center(
-                            child: Icon(
-                              Icons.remove,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          color: Colors.grey,
-                          child: Center(
-                            child: Icon(
-                              Icons.close,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-                Expanded(
-                    child: Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        color: Colors.grey,
-                        child: Center(
-                          child: Text(
-                            '÷',
-                            style: TextStyle(
-                              fontSize: 30,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Container(
-                        color: Colors.grey,
-                        child: Center(
-                          child: Text(
-                            '=',
-                            style: TextStyle(fontSize: 30),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        color: Colors.grey,
-                        child: Center(
-                          child: Text(
-                            '.',
-                            style: TextStyle(fontSize: 30),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ))
+                )
               ],
             ),
-          )
-        ],
-      ),
-    );
+          ),
+          flex: 1,
+        ),
+        Expanded(
+          child: Container(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Expanded(child: GetButtons('ac', 'ce', '%', '/')),
+                Expanded(child: GetButtons('1', '2', '3', 'x')),
+                Expanded(child: GetButtons('4', '5', '6', '-')),
+                Expanded(child: GetButtons('7', '8', '9', '+')),
+                Expanded(child: GetButtons('00', '.', '0', '=')),
+              ],
+            ),
+          ),
+          flex: 4,
+        ),
+      ],
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
+    ));
   }
 }
