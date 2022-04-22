@@ -13,11 +13,70 @@ class _CalculatorState extends State<Calculator> {
   String _currentOperator = '';
   String _currentNumber = '';
   String _rightHandSideNumber = '';
+  String _equalOp = '';
+  dynamic _result = 0;
 
   void _changeNumber(String num) {
     setState(() {
-      _currentNumber = num;
+      _currentNumber += num;
       _display = _currentNumber;
+    });
+  }
+
+  void _setOperator(String op) {
+    setState(() {
+      _currentOperator = op;
+    });
+  }
+
+  void _changeRightHandleSide(String num) {
+    setState(() {
+      _rightHandSideNumber += num;
+    });
+  }
+
+  void _equal() {
+    setState(() {
+      _equalOp = '=';
+      var toNum = int.parse(_currentNumber);
+      var rightToNum = int.parse(_rightHandSideNumber);
+
+      switch (_currentOperator) {
+        case '+':
+          _result = toNum + rightToNum;
+          _currentNumber = '$_result';
+          _rightHandSideNumber = '';
+          _currentOperator = '';
+          _display = '$_result';
+          break;
+
+        case '/':
+          _result = toNum / rightToNum;
+          _currentNumber = '$_result';
+          _rightHandSideNumber = '';
+          _currentOperator = '';
+          _display = '$_result';
+          break;
+
+        case '-':
+          _result = toNum - rightToNum;
+          _currentNumber = '$_result';
+          _rightHandSideNumber = '';
+          _currentOperator = '';
+          _display = '$_result';
+          break;
+
+        case 'x':
+          _result = toNum * rightToNum;
+          _currentNumber = '$_result';
+          _rightHandSideNumber = '';
+          _currentOperator = '';
+          _display = '$_result';
+          break;
+
+        default:
+          null;
+      }
     });
   }
 
@@ -36,14 +95,14 @@ class _CalculatorState extends State<Calculator> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      _display,
+                      '$_display $_currentOperator $_rightHandSideNumber',
                       textAlign: TextAlign.right,
                       style: TextStyle(
                         fontSize: 35,
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -54,11 +113,81 @@ class _CalculatorState extends State<Calculator> {
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
-                Expanded(child: GetButtons('ac', 'ce', '%', '/')),
-                Expanded(child: GetButtons('1', '2', '3', 'x')),
-                Expanded(child: GetButtons('4', '5', '6', '-')),
-                Expanded(child: GetButtons('7', '8', '9', '+')),
-                Expanded(child: GetButtons('00', '.', '0', '=')),
+                Expanded(
+                  child: GetButtons(
+                    'ac',
+                    'ce',
+                    '%',
+                    '/',
+                    changeRight: _changeRightHandleSide,
+                    equal: _equal,
+                    handleChange: _changeNumber,
+                    number: _currentNumber,
+                    op: _currentOperator,
+                    setOp: _setOperator,
+                    rightNumber: _rightHandSideNumber,
+                  ),
+                ),
+                Expanded(
+                  child: GetButtons(
+                    '1',
+                    '2',
+                    '3',
+                    'x',
+                    changeRight: _changeRightHandleSide,
+                    equal: _equal,
+                    handleChange: _changeNumber,
+                    number: _currentNumber,
+                    op: _currentOperator,
+                    setOp: _setOperator,
+                    rightNumber: _rightHandSideNumber,
+                  ),
+                ),
+                Expanded(
+                  child: GetButtons(
+                    '4',
+                    '5',
+                    '6',
+                    '-',
+                    changeRight: _changeRightHandleSide,
+                    equal: _equal,
+                    handleChange: _changeNumber,
+                    number: _currentNumber,
+                    op: _currentOperator,
+                    setOp: _setOperator,
+                    rightNumber: _rightHandSideNumber,
+                  ),
+                ),
+                Expanded(
+                  child: GetButtons(
+                    '7',
+                    '8',
+                    '9',
+                    '+',
+                    changeRight: _changeRightHandleSide,
+                    equal: _equal,
+                    handleChange: _changeNumber,
+                    number: _currentNumber,
+                    op: _currentOperator,
+                    setOp: _setOperator,
+                    rightNumber: _rightHandSideNumber,
+                  ),
+                ),
+                Expanded(
+                  child: GetButtons(
+                    '00',
+                    '.',
+                    '0',
+                    '=',
+                    changeRight: _changeRightHandleSide,
+                    equal: _equal,
+                    handleChange: _changeNumber,
+                    number: _currentNumber,
+                    op: _currentOperator,
+                    setOp: _setOperator,
+                    rightNumber: _rightHandSideNumber,
+                  ),
+                ),
               ],
             ),
           ),
