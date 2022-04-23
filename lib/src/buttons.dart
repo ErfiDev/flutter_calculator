@@ -2,14 +2,21 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 
-Widget GetButtons(String t1, t2, t3, t4,
-    {Function? handleChange,
-    changeRight,
-    setOp,
-    equal,
-    String? op,
-    String? number,
-    rightNumber}) {
+Widget GetButtons(
+  String t1,
+  t2,
+  t3,
+  t4, {
+  Function? handleChange,
+  changeRight,
+  setOp,
+  equal,
+  deleteOne,
+  deleteAll,
+  String? op,
+  String? number,
+  rightNumber,
+}) {
   return Row(
     children: [
       Expanded(
@@ -18,11 +25,13 @@ Widget GetButtons(String t1, t2, t3, t4,
           IsOperator(t1),
           changeRight: changeRight,
           equal: equal,
-          handleChange: handleChange!,
-          number: number!,
-          op: op!,
+          handleChange: handleChange,
+          number: number,
+          op: op,
           rightNumber: rightNumber,
           setOp: setOp,
+          deleteOne: deleteOne,
+          deleteAll: deleteAll,
         ),
       ),
       Expanded(
@@ -31,11 +40,13 @@ Widget GetButtons(String t1, t2, t3, t4,
           IsOperator(t2),
           changeRight: changeRight,
           equal: equal,
-          handleChange: handleChange!,
-          number: number!,
-          op: op!,
+          handleChange: handleChange,
+          number: number,
+          op: op,
           rightNumber: rightNumber,
           setOp: setOp,
+          deleteOne: deleteOne,
+          deleteAll: deleteAll,
         ),
       ),
       Expanded(
@@ -44,11 +55,13 @@ Widget GetButtons(String t1, t2, t3, t4,
           IsOperator(t3),
           changeRight: changeRight,
           equal: equal,
-          handleChange: handleChange!,
-          number: number!,
-          op: op!,
+          handleChange: handleChange,
+          number: number,
+          op: op,
           rightNumber: rightNumber,
           setOp: setOp,
+          deleteOne: deleteOne,
+          deleteAll: deleteAll,
         ),
       ),
       Expanded(
@@ -57,11 +70,13 @@ Widget GetButtons(String t1, t2, t3, t4,
           IsOperator(t4),
           changeRight: changeRight,
           equal: equal,
-          handleChange: handleChange!,
-          number: number!,
-          op: op!,
+          handleChange: handleChange,
+          number: number,
+          op: op,
           rightNumber: rightNumber,
           setOp: setOp,
+          deleteOne: deleteOne,
+          deleteAll: deleteAll,
         ),
       ),
     ],
@@ -79,6 +94,8 @@ Widget CreateClickableButton(String text, bool isOp,
     changeRight,
     setOp,
     equal,
+    deleteOne,
+    deleteAll,
     String? op,
     number,
     rightNumber}) {
@@ -88,18 +105,28 @@ Widget CreateClickableButton(String text, bool isOp,
         // for numbers
         if (number != '' && op != '') {
           changeRight(text);
+          return;
         } else {
           handleChange!(text);
         }
       } else {
         if (text != '=') {
           if (number != '') {
-            print(text);
-            setOp(text);
+            if (text == 'ce') {
+              deleteOne();
+              return;
+            }
+            if (text == 'ac') {
+              deleteAll();
+              return;
+            } else {
+              setOp(text);
+            }
           }
         } else {
           if (number != '' && op != '' && rightNumber != '') {
             equal();
+            return;
           }
         }
       }

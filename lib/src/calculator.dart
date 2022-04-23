@@ -13,7 +13,6 @@ class _CalculatorState extends State<Calculator> {
   String _currentOperator = '';
   String _currentNumber = '';
   String _rightHandSideNumber = '';
-  String _equalOp = '';
   dynamic _result = 0;
 
   void _changeNumber(String num) {
@@ -37,13 +36,16 @@ class _CalculatorState extends State<Calculator> {
 
   void _equal() {
     setState(() {
-      _equalOp = '=';
-      var toNum = int.parse(_currentNumber);
-      var rightToNum = int.parse(_rightHandSideNumber);
+      dynamic toNum;
+      dynamic rightToNum;
+
+      toNum = double.parse(_currentNumber);
+      rightToNum = double.parse(_rightHandSideNumber);
 
       switch (_currentOperator) {
         case '+':
           _result = toNum + rightToNum;
+          print(_result);
           _currentNumber = '$_result';
           _rightHandSideNumber = '';
           _currentOperator = '';
@@ -77,6 +79,38 @@ class _CalculatorState extends State<Calculator> {
         default:
           null;
       }
+    });
+  }
+
+  void _deleteOne() {
+    setState(() {
+      if (_rightHandSideNumber.isEmpty && _currentNumber.isNotEmpty) {
+        if (_currentNumber.length == 1) {
+          _currentNumber = '';
+          _display = '0.0';
+        } else {
+          _currentNumber =
+              _currentNumber.substring(0, _currentNumber.length - 1);
+          _display = _currentNumber;
+        }
+      } else if (_rightHandSideNumber.isNotEmpty) {
+        if (_rightHandSideNumber.length == 1) {
+          _rightHandSideNumber = '';
+          _currentOperator = '';
+        } else {
+          _rightHandSideNumber = _rightHandSideNumber.substring(
+              0, _rightHandSideNumber.length - 1);
+        }
+      }
+    });
+  }
+
+  void _deleteAll() {
+    setState(() {
+      _currentNumber = '';
+      _rightHandSideNumber = '';
+      _currentOperator = '';
+      _display = '0.0';
     });
   }
 
@@ -126,6 +160,8 @@ class _CalculatorState extends State<Calculator> {
                     op: _currentOperator,
                     setOp: _setOperator,
                     rightNumber: _rightHandSideNumber,
+                    deleteOne: _deleteOne,
+                    deleteAll: _deleteAll,
                   ),
                 ),
                 Expanded(
